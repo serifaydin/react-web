@@ -33,7 +33,7 @@ class Home extends Component{
                             <span className="card-title">AOS</span>
                         </div>
                         <div className="card-content white-text">
-                            <Link to={'/'+post.id}>
+                            <Link to={'/post/'+post.id}>
                                 <span className="card-title">{post.title}</span>
                             </Link>
                             <p>{post.body}</p>

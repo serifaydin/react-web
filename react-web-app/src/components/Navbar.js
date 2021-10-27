@@ -10,9 +10,18 @@ const Navbar = (props) => {
             <div className="container">
                 <a href="/" className="brand-logo">Anasayfa</a>
                 <ul className="right">
-                    <li><Link to="/">Anasayfa</Link></li>
-                    <li><Link to="/about">Hakkımızda</Link></li>
-                    <li><Link to="/contact">İletişim</Link></li>
+                    <li><NavLink to="/" activeStyle={{
+    fontWeight: "bold",
+    backgroundColor: "blue"
+  }}>Anasayfa</NavLink></li>
+                    <li><NavLink to="/about" activeStyle={{
+    fontWeight: "bold",
+    backgroundColor: "blue"
+  }}>Hakkımızda</NavLink></li>
+                    <li><NavLink to="/contact" activeStyle={{
+    fontWeight: "bold",
+    backgroundColor: "blue"
+  }}>İletişim</NavLink></li>
                 </ul>
             </div>
         </nav>
