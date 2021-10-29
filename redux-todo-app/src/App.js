@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{Component} from 'react'
+import { connect } from 'react-redux'
+import { addTodo } from './Actions/actions'
+import AddTodo from './Components/AddTodo'
+import TodoList from './Components/TodoList'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+
+    const {dispatch,eklenmisTodos}=this.props;
+
+    return (
+      <div className="App container">
+        <AddTodo onAddClick={text => dispatch((addTodo(text)))}/>
+        <TodoList todos={eklenmisTodos}/>
+      </div>
+    )
+  }
 }
 
-export default App;
+function select(state) {
+  return {
+    eklenmisTodos: this.state.todos
+  }
+}
+
+export default connect(select)(App);
