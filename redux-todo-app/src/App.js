@@ -20,7 +20,7 @@ class App extends Component {
 
 function select(state) {
   return {
-    eklenmisTodos: this.state.todos
+    eklenmisTodos: state.todos
   }
 }
 

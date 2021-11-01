@@ -6,7 +6,7 @@ function todo(state, action) {
         case ADD_TODO:
             return {
                 id: action.id,
-                text: action.Text
+                text: action.text
             }
         default:
             return state
