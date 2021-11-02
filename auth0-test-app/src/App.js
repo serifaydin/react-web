@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import Main from './Components/Main';
+import Gizli from './Components/Gizli';
+import NotFound from './Components/NotFound'
+import CallBack from './Components/CallBack'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+
+    let mainComponent = "";
+
+    switch (this.props.location) {
+      case "":
+        mainComponent = <Main {...this.props}/>;
+        break;
+      case "gizli":
+        mainComponent = <Gizli />
+        break;
+        case "callback":
+        mainComponent = <CallBack />
+        break;
+        default:
+        mainComponent = <NotFound />;
+    }
+
+    return (
+      <div className="App container">
+        {this.props.isim} Uygulaması
+        {mainComponent}
+      </div>
+    )
+  }
 }
 
 export default App;
