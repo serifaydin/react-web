@@ -5,6 +5,8 @@ export default class Gizli extends Component{
         return(
             <div>
                 Gizli Component
+                <br/>
+                <button className="btn grey" onClick={this.props.auth.logout}>Logout</button>
             </div>
         )
     }

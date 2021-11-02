@@ -14,7 +14,7 @@ class App extends Component {
         mainComponent = <Main {...this.props}/>;
         break;
       case "gizli":
-        mainComponent = <Gizli />
+        mainComponent = this.props.auth.isAuthenticated() ? <Gizli {...this.props} />:<NotFound/>
         break;
         case "callback":
         mainComponent = <CallBack />
