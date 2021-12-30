@@ -1,5 +1,15 @@
+import React from "react";
+import AddChallenge from "./AddChallenge";
+import ChallengeList from "./ChallengeList";
+
 const Challenges = ()=>{
-    return(<h3>Metinler</h3>)
+    return(
+        <React.Fragment>
+            <AddChallenge/>
+            <hr/>
+            <ChallengeList/>
+        </React.Fragment>
+    )
 }
 
 export default Challenges;
