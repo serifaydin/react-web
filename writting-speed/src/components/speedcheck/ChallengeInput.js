@@ -1,26 +1,31 @@
-import React, { Component } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { ChallengeContext } from '../../contexts/ChallengeContext';
 const initialState = {
     entry: '',
     isDisabled: false,
     start: null,
     end: null
 }
-class ChallengeInput extends Component {
-    challenge = this.props.challenge
-    state = initialState
-    keyMap = []
-    changeHandler = (e) => {
-        let { start } = this.state;
+const ChallengeInput = (props) => {
+
+    const { challenges, selected } = useContext(ChallengeContext);
+    const challenge = challenges.find(c => c.id === selected).text;
+
+    const [state, setState] = useState(initialState)
+
+    let keyMap = []
+    const changeHandler = (e) => {
+        let { start } = state;
         if (start === null) {
             start = new Date().getTime();
         }
         if (e.target.value === '') {
-            this.resetState();
-        } else if (this.challenge.length + 1 <= e.target.value.length) {
-            this.stopAndCheck()
+            resetState();
+        } else if (challenge.length + 1 <= e.target.value.length) {
+            stopAndCheck()
         } else {
-            this.setState({
-                ...this.state,
+            setState({
+                ...state,
                 [e.target.name]: e.target.value,
                 start
             })
@@ -28,30 +33,31 @@ class ChallengeInput extends Component {
 
     }
 
-    resetState = () => {
-        this.setState(initialState);
+    const resetState = () => {
+        setState(initialState);
+        props.setResult(null);
     }
-    stopAndCheck = () => {
+    const stopAndCheck = () => {
         let end = new Date().getTime();
-        const { entry, start } = this.state;
-        const result = this.checkEntry(entry, end, start)
-        this.props.setResult(result);
-        this.setState({
-            ...this.state,
+        const { entry, start } = state;
+        const result = checkEntry(entry, end, start)
+        props.setResult(result);
+        setState({
+            ...state,
             isDisabled: true,
             end
         })
     }
-    keyDownHandler = (e) => {
-        this.keyMap[e.keyCode] = e.type === "keydown"
-        if (this.keyMap[17] && this.keyMap[13]) {
-            this.stopAndCheck()
+    const keyDownHandler = (e) => {
+        keyMap[e.keyCode] = e.type === "keydown"
+        if (keyMap[17] && keyMap[13]) {
+            stopAndCheck()
         }
     }
 
-    checkEntry = (entry, end, start) => {
+    const checkEntry = (entry, end, start) => {
         let sum = 0;
-        const arr_challenge = this.challenge.split(' ');
+        const arr_challenge = challenge.split(' ');
         const arr_entry = entry.split(' ');
         arr_challenge.forEach((c, i) => {
             for (let j = 0; j < c.length; j++) {
@@ -61,7 +67,7 @@ class ChallengeInput extends Component {
             }
         });
         sum = sum + arr_entry.length - 1;
-        let accuracy = (sum * 100 / this.challenge.length);
+        let accuracy = (sum * 100 / challenge.length);
         let duration = (end - start) / 1000;
         let wordsPerMinute = (entry.length * 60) / (6 * duration);
 
@@ -73,32 +79,40 @@ class ChallengeInput extends Component {
 
     }
 
-    keyUphandler = () => {
-        this.keyMap = []
+    const keyUphandler = () => {
+        keyMap = []
     }
-    componentDidMount() {
-        document.addEventListener("keydown", this.keyDownHandler);
-        document.addEventListener("keyup", this.keyUphandler);
-    }
-    componentWillUnmount() {
-        document.removeEventListener("keydown", this.keyDownHandler);
-        document.removeEventListener("keyup", this.keyUphandler);
-    }
-    render() {
-        const { entry, isDisabled } = this.state;
-        return (
-            <React.Fragment>
-                <div className="input-group mb-3">
-                    <input type="text" name="entry" autoComplete="off" value={entry} disabled={isDisabled} onChange={this.changeHandler} className="form-control" placeholder="Metni giriniz" />
-                    <div className="input-group-append">
-                        <button className="btn btn-outline-secondary rounded-right" onClick={this.resetState} type="button" id="reset">sil</button>
-                    </div>
-                    <br />
+
+    /*     componentDidMount() {
+            document.addEventListener("keydown", keyDownHandler);
+            document.addEventListener("keyup", keyUphandler);
+        }
+        componentWillUnmount() {
+            document.removeEventListener("keydown", keyDownHandler);
+            document.removeEventListener("keyup", keyUphandler);
+        } */
+
+    useEffect(() => {
+        document.addEventListener("keydown", keyDownHandler);
+        document.addEventListener("keyup", keyUphandler);
+        return () => {
+            document.removeEventListener("keydown", keyDownHandler);
+            document.removeEventListener("keyup", keyUphandler);
+        }
+    })
+
+    return (
+        <React.Fragment>
+            <div className="input-group mb-3">
+                <input type="text" name="entry" autoComplete="off" value={state.entry} disabled={state.isDisabled} onChange={changeHandler} className="form-control" placeholder="Metni giriniz" />
+                <div className="input-group-append">
+                    <button className="btn btn-outline-secondary rounded-right" onClick={resetState} type="button" id="reset">sil</button>
                 </div>
-                <small className="text-muted">{`${this.challenge.length - entry.length} / ${this.challenge.length}`}</small>
-            </React.Fragment>
-        );
-    }
+                <br />
+            </div>
+            <small className="text-muted">{`${challenge.length - state.entry.length} / ${challenge.length}`}</small>
+        </React.Fragment>
+    );
 }
 
 export default ChallengeInput;

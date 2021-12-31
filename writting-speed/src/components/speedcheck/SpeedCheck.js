@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Info from './Info';
 import ChallengeInput from './ChallengeInput';
 import Score from './Score';
+import SelectChallenge from './SelectChallenge';
 const initState = {
     result: null
 }
 class SpeedCheck extends Component {
-    challenge = "Mehmet Ali FIRAT";
     state = initState
 
     setResult = (result) => {
@@ -19,9 +19,11 @@ class SpeedCheck extends Component {
         const {result} = this.state;
         return (
             <React.Fragment>
+                <SelectChallenge/>
+                <hr/>
                 <Info/>
                 <hr />
-                <ChallengeInput challenge={this.challenge} setResult={this.setResult} />
+                <ChallengeInput setResult={this.setResult} />
                 <hr />
                 {result !== null ? <Score values={this.state.result} /> : ""}
             </React.Fragment>

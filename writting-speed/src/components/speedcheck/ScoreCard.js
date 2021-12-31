@@ -2,9 +2,9 @@ import React from 'react';
 
 const ScoreCard = ({ value, type }) => {
     return (
-        <div class="col-sm-4">
-            <div class="card">
-                <div class="card-body">
+        <div className="col-sm-4">
+            <div className="card">
+                <div className="card-body">
                     <div className={`card border-${type.bgcolor} col p-0 text-center`}>
                         <div className="card-header p-0">
                             <h4 className="card-title">{type.title}</h4>
