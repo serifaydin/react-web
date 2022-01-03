@@ -1,4 +1,5 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useReducer, useEffect } from "react";
+import { challengeReducer } from "../reducers/ChallengeReducer";
 
 export const ChallengeContext = createContext();
 
@@ -25,22 +26,30 @@ const initState = {
 }
 
 const initResult = [
-        {
-            id: 1,
-            challengeId: 2,
-            scores: {
-                duration: 2.5,
-                accuracy: 83,
-                wordsPerMinute: 55
-            }
+    {
+        id: 1,
+        challengeId: 2,
+        scores: {
+            duration: 2.5,
+            accuracy: 83,
+            wordsPerMinute: 55
         }
-    ]
+    }
+]
 
 const ChallengeContextProvider = (props) => {
-    const [state, setChallenges] = useState(initState);
-    const [results, setResults] = useState(initResult);
 
-    const addChallenge = (challenge) => {
+    const [state, dispatch] = useReducer(challengeReducer, initState, () => {
+        const data = localStorage.getItem('challenges');
+        return data ? JSON.parse(data) : initState;
+    });
+
+    //const [state, setChallenges] = useState(initState);
+    const data = localStorage.getItem('results');
+
+    const [results, setResults] = useState(data ? JSON.parse(data): initResult);
+
+    /* const addChallenge = (challenge) => {
         let id = state.index;
         const newChallenge = { ...challenge, id }
         setChallenges({
@@ -48,21 +57,29 @@ const ChallengeContextProvider = (props) => {
             challenges: [...state.challenges, newChallenge],
             index: id + 1
         })
-    }
+    } */
 
-    const addResult =(result)=>{
+    useEffect(() => {
+        localStorage.setItem('challenges', JSON.stringify(state));
+    },[state]);
+
+    useEffect(()=>{
+        localStorage.setItem('results',JSON.stringify(results))
+    })
+
+    const addResult = (result) => {
         setResults([...results, result])
     }
 
-    const setSelected = (id) => {
+    /* const setSelected = (id) => {
         setChallenges({
             ...state,
             selected: id
         })
-    }
+    } */
 
     return (
-        <ChallengeContext.Provider value={{ ...state, results:[...results], addChallenge, setSelected, addResult }}>
+        <ChallengeContext.Provider value={{ ...state, results: [...results], dispatch, addResult }}>
             {props.children}
         </ChallengeContext.Provider>
     );

@@ -9,7 +9,7 @@ const AddChallenge = () => {
     const [challenge, setChallenge] = useState(initState);
     //const [deneme, setDeneme] = useState({name:''});
 
-    const { addChallenge } = useContext(ChallengeContext)
+    const { dispatch } = useContext(ChallengeContext)
     const theme = useContext(ThemeContext).getTheme();
 
     const changeHandler = (e) => {
@@ -20,7 +20,8 @@ const AddChallenge = () => {
     }
     const submitHandler = (e) => {
         e.preventDefault();
-        addChallenge(challenge)
+        dispatch({type:'ADD_CHALLENGE', challenge})
+        //addChallenge(challenge)
         setChallenge(initState)
     }
 
