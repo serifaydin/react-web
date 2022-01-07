@@ -1,5 +1,5 @@
-export const reducer = (state, action) => {
-    switch (action.type) {
+    export const reducer = (state, action) => {
+      switch (action.type) {
         case "FETCH_START":
             return { ...state, data: "", loading: true, error: "" };
         case "FETCH_SUCCESS":
@@ -8,5 +8,5 @@ export const reducer = (state, action) => {
             return { ...state, loading: false, error: action.payload };
         default:
             return state;
+      }
     }
-}
