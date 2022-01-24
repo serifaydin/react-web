@@ -1,0 +1,37 @@
+@import './assets/scss/Reset.scss';
+
+@import url('./assets/fonts/Open\ Sans/stylesheet.css');
+
+@import './assets/scss/CommonStyle.scss';
+
+
+body {
+	font-family: 'Open Sans';
+}
+
+.container {
+	max-width: 1000px;
+	margin: 20px auto;
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+	margin-left: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #1e1f2044;
+	border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	opacity: .5;
+}
