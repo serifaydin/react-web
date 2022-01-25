@@ -22,16 +22,9 @@ export const todoSlice = createSlice({
         },
 
         todoCompleted: (state, action) => {
-            console.log(action.payload);
-
-            state.todos[action.payload].completed = !state.todos[action.payload].completed;
-
-
-            /*  return state.todos.map((todo) =>
-                 todo.id === action.payload ? { ...todo, completed: !todo.completed } : todo
-             ); */
+            state.todos[action.payload].completed 
+            = !state.todos[action.payload].completed;
         },
-
     }
 });
 
